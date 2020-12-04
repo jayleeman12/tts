@@ -11,16 +11,16 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Router, Scene, Stack } from 'react-native-router-flux';
-import FilesPage from './src/FilesPage';
-import FileView from './src/FileView';
+import FilesPage from './src/components/FilesPage';
+import FileView from './src/components/FileView';
 
 
 const App = () => {
   return (
     <Router>
       <Stack key='root'>
-        <Scene key='files' component={FilesPage} title='Files' />
-        <Scene key='file-view' component={FileView} title='Files' />
+        <Scene key='files' component={FilesPage} navTransparent={true} />
+        <Scene key='file-view' component={FileView} navTransparent={true} />
       </Stack>
     </Router>
   );
