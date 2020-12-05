@@ -1,3 +1,4 @@
 export type File = {
-    name: string
+    name: string;
+    id: number;
 }

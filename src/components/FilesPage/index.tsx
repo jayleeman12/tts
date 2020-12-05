@@ -1,47 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, Text, View } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
-import Icon from 'react-native-vector-icons/FontAwesome'
 import { human } from 'react-native-typography';
 import { COLORS } from '../../globals';
 import { File } from '../../types';
+import FileList from './FileList';
 
 const FilesPage: React.FunctionComponent<{}> = props => {
     const [files, setFiles] = useState<File[]>([]);
     useEffect(() => {
         setFiles([
-            { name: "Molecular Biology of the cell" },
-            { name: "Robin hood goes rogue" },
-            { name: "Banditza and the seven legs" }
+            { name: "Molecular Biology of the cell", id: 1 },
+            { name: "Robin hood goes rogue", id: 2 },
+            { name: "Banditza and the seven legs", id: 3 }
         ]);
     }, []);
+    const removeFile = (file: File) => {
+        setFiles(files => {
+            console.log(`hello?? ${file.id}`);
+            files.splice(file.id - 1, 1);
+            return files;
+        });
+    };
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ backgroundColor: COLORS.primary.dark, height: Dimensions.get('window').height / 10, justifyContent: 'center' }}>
+            <View style={{
+                backgroundColor: COLORS.primary.dark,
+                height: Dimensions.get('window').height / 10,
+                justifyContent: 'center'
+            }}>
                 <Text style={[human.title1, { color: 'white', marginLeft: '3%' }]}>Files</Text>
             </View>
-            <SwipeListView
-                contentContainerStyle={{ flexGrow: 1, marginTop: '8%' }}
-                swipeRowStyle={{ height: '12%' }}
-                data={files.map((file, index) => { return { ...file, key: index.toString() } })}
-                renderItem={(data, rowMap) => (
-                    <View style={{
-                        justifyContent: 'flex-start',
-                        flexDirection: 'row',
-                        alignItems: 'center'
-                    }}>
-                        <Icon name='file' size={25} color={COLORS.secondary.light} />
-                        <Text style={[human.body, { 'marginLeft': '3%' }]}>{data.item.name}</Text>
-                    </View>
-                )}
-                renderHiddenItem={(data, rowMap) => (
-                    <View >
-                        <Text>left</Text>
-                    </View>
-                )}
-                leftOpenValue={75}
-                rightOpenValue={-75}
-            />
+            <FileList files={files} onFileDeleted={removeFile} />
         </View>
     )
 };
