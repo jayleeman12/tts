@@ -15,11 +15,10 @@ const FilesPage: React.FunctionComponent<{}> = props => {
         ]);
     }, []);
     const removeFile = (file: File) => {
-        setFiles(files => {
-            console.log(`hello?? ${file.id}`);
-            files.splice(file.id - 1, 1);
-            return files;
-        });
+        const newFiles = [...files];
+        const fileToRemoveIndex = newFiles.findIndex(searchedFile => searchedFile.id == file.id);
+        newFiles.splice(fileToRemoveIndex, 1);
+        setFiles(newFiles);
     };
     return (
         <View style={{ flex: 1 }}>
