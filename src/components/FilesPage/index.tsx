@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Text, View } from 'react-native';
+import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { human } from 'react-native-typography';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { COLORS } from '../../globals';
 import { File } from '../../types';
 import FileList from './FileList';
@@ -30,6 +31,9 @@ const FilesPage: React.FunctionComponent<{}> = props => {
                 <Text style={[human.title1, { color: 'white', marginLeft: '3%' }]}>Files</Text>
             </View>
             <FileList files={files} onFileDeleted={removeFile} />
+            <TouchableOpacity style={{position: 'absolute', right: 30, bottom: 30}}>
+                <Icon name='plus-circle' size={60} color={COLORS.primary.dark} />
+            </TouchableOpacity>
         </View>
     )
 };
