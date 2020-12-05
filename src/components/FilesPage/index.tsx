@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, Text, View } from 'react-native';
-import { material, materialColors } from 'react-native-typography';
+import { human } from 'react-native-typography';
 import { COLORS } from '../../globals';
 import { File } from '../../types';
 
@@ -13,18 +13,15 @@ const files: File[] = [
 const FilesPage = () => (
     <View style={{ display: 'flex' }}>
         <View style={{ backgroundColor: COLORS.primary.dark, height: '15%', justifyContent: 'center' }}>
-            <Text style={[material.display1, { color: 'white', marginLeft: '3%' }]}>Files</Text>
+            <Text style={[human.title1, { color: 'white', marginLeft: '3%' }]}>Files</Text>
         </View>
         {files.map((file: File, index: number) => (
-            <>
             <View key={index} style={{
                 height: '17%',
                 justifyContent: 'center'
             }}>
-                <Text style={[material.subheading, { 'marginLeft': '3%' }]}>{file.name}</Text>
+                <Text style={[human.body, { 'marginLeft': '3%' }]}>{file.name}</Text>
             </View>
-            <View style={{height: '2%', backgroundColor: COLORS.primary.light}}></View>
-            </>
         ))}
     </View>
 );
