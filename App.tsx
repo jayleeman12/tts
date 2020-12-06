@@ -11,18 +11,22 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Router, Scene, Stack } from 'react-native-router-flux';
+import Toast from 'react-native-toast-message';
 import FilesPage from './src/components/FilesPage';
 import FileView from './src/components/FileView';
 
 
 const App = () => {
   return (
-    <Router>
-      <Stack key='root'>
-        <Scene key='files' component={FilesPage} navTransparent={true} />
-        <Scene key='file-view' component={FileView} navTransparent={true} />
-      </Stack>
-    </Router>
+    <>
+      <Router>
+        <Stack key='root'>
+          <Scene key='files' component={FilesPage} navTransparent={true} />
+          <Scene key='file-view' component={FileView} navTransparent={true} />
+        </Stack>
+      </Router>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+    </>
   );
 };
 

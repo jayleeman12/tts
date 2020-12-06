@@ -16,7 +16,7 @@ const FileList: React.FunctionComponent<FileListProps> = props => (
         contentContainerStyle={{ flexGrow: 1, marginTop: '8%', marginLeft: '3%' }}
         swipeRowStyle={{ height: '12%' }}
         data={props.files}
-        keyExtractor={file => file.id.toString()}
+        keyExtractor={file => file.path}
         renderItem={data => (
             <View style={{
                 justifyContent: 'flex-start',
