@@ -16,8 +16,7 @@ const FileList: React.FunctionComponent<FileListProps> = props => {
     const [isRowClosed, setRowClosed] = useState<boolean>(false);
     return (
         <SwipeListView
-            contentContainerStyle={{ flexGrow: 1, marginTop: '8%', marginLeft: '3%' }}
-            swipeRowStyle={{ height: '12%' }}
+            contentContainerStyle={{ flex: 1, marginLeft: '3%' }}
             data={props.files}
             keyExtractor={file => file.path}
             renderItem={data => (
@@ -25,12 +24,14 @@ const FileList: React.FunctionComponent<FileListProps> = props => {
                     if (isRowClosed) {
                         console.log('fuck this');
                     }
-                }} style={{}}>
+                }} style={{
+                    height: 60,
+                    justifyContent: 'center',
+                    backgroundColor: 'white'
+                }}>
                     <View style={{
-                        justifyContent: 'flex-start',
                         flexDirection: 'row',
                         alignItems: 'center',
-                        backgroundColor: 'white'
                     }}>
                         <Icon name='file' size={25} color={COLORS.secondary.light} />
                         <Text style={[human.body, { 'marginLeft': '3%' }]}>{data.item.name}</Text>
@@ -42,6 +43,7 @@ const FileList: React.FunctionComponent<FileListProps> = props => {
                     flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'flex-end',
+                    alignItems: 'center'
                 }}>
                     <TouchableOpacity
                         onPress={() => props.onFileDeleted(data.item)}
