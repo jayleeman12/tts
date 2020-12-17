@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { human } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { COLORS } from '../../globals';
@@ -14,6 +14,22 @@ const FilesPage: React.FunctionComponent<{}> = props => {
         setFiles([
             { name: "Molecular Biology of the cell", path: 'le path' },
             { name: "Robin hood goes rogue", path: 'is never real' },
+            { name: "Robin hood goes rogue", path: 'is never real2' },
+            { name: "Robin hood goes rogue", path: 'is never real3' },
+            { name: "Robin hood goes rogue", path: 'is never real4' },
+            { name: "Robin hood goes rogue", path: 'is never real5' },
+            { name: "Robin hood goes rogue", path: 'is never real6' },
+            { name: "Robin hood goes rogue", path: 'is never real7' },
+            { name: "Robin hood goes rogue", path: 'is never real8' },
+            { name: "Robin hood goes rogue", path: 'is never real9' },
+            { name: "Robin hood goes rogue", path: 'is never real10' },
+            { name: "Robin hood goes rogue", path: 'is never real11' },
+            { name: "Robin hood goes rogue", path: 'is never real12' },
+            { name: "Robin hood goes rogue", path: 'is never real13' },
+            { name: "Robin hood goes rogue", path: 'is never real14' },
+            { name: "Robin hood goes rogue", path: 'is never real15' },
+            { name: "Robin hood goes rogue", path: 'is never real16' },
+            { name: "Robin hood goes rogue", path: 'is never real18' },
             { name: "Banditza and the seven legs", path: 'maybe this?' }
         ]);
     }, []);
@@ -62,7 +78,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
             }}>
                 <Text style={[human.title1, { color: 'white', marginLeft: '3%' }]}>Files</Text>
             </View>
-            <FileList files={files} onFileDeleted={removeFile} />
+            <FileList files={files} onFileDeleted={removeFile} onFilePressed={(file: File) => Alert.alert('hmm')} />
             <TouchableOpacity onPress={addFile} style={{ position: 'absolute', right: 30, bottom: 30 }}>
                 <Icon name='plus-circle' size={60} color={COLORS.primary.dark} />
             </TouchableOpacity>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Dimensions, ListRenderItemInfo, Text, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import { SwipeListView } from 'react-native-swipe-list-view'
+import { Dimensions, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native'
+import { RowMap, SwipeListView } from 'react-native-swipe-list-view'
 import { human } from 'react-native-typography'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { COLORS } from '../../globals'
@@ -13,30 +13,29 @@ export type FileListProps = {
 }
 
 const FileList: React.FunctionComponent<FileListProps> = props => {
-    const [isRowClosed, setRowClosed] = useState<boolean>(false);
+    const handleRowPress = (file: File, rowMap: RowMap<File>) => {
+        const isAnyRowOpen = props.files.some(file => rowMap[file.path].isOpen);
+        if (!isAnyRowOpen) {
+            props.onFilePressed(file)
+        }
+    }
     return (
         <SwipeListView
-            contentContainerStyle={{ flex: 1, marginLeft: '3%' }}
+            contentContainerStyle={{ paddingLeft: '3%' }}
             data={props.files}
             keyExtractor={file => file.path}
-            renderItem={data => (
-                <TouchableHighlight onPress={() => {
-                    if (isRowClosed) {
-                        console.log('fuck this');
-                    }
-                }} style={{
-                    height: 60,
-                    justifyContent: 'center',
-                    backgroundColor: 'white'
-                }}>
+            renderItem={(data, rowMap) => (
+                <TouchableNativeFeedback onPress={() => handleRowPress(data.item, rowMap)}>
                     <View style={{
+                        height: 60,
                         flexDirection: 'row',
                         alignItems: 'center',
+                        backgroundColor: 'white'
                     }}>
                         <Icon name='file' size={25} color={COLORS.secondary.light} />
                         <Text style={[human.body, { 'marginLeft': '3%' }]}>{data.item.name}</Text>
                     </View>
-                </TouchableHighlight>
+                </TouchableNativeFeedback>
             )}
             renderHiddenItem={data => (
                 <View style={{
@@ -57,8 +56,6 @@ const FileList: React.FunctionComponent<FileListProps> = props => {
             closeOnRowBeginSwipe={true}
             closeOnRowPress={true}
             rightOpenValue={- Dimensions.get('window').width * 0.15}
-            onRowDidOpen={() => setRowClosed(false)}
-            onRowDidClose={() => setRowClosed(true)}
         />
     );
 }
