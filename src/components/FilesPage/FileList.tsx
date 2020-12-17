@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { Dimensions, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native'
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view'
 import { human } from 'react-native-typography'
@@ -13,10 +13,12 @@ export type FileListProps = {
 }
 
 const FileList: React.FunctionComponent<FileListProps> = props => {
+    const openRows = useRef<string | null>(null);
     const handleRowPress = (file: File, rowMap: RowMap<File>) => {
-        const isAnyRowOpen = props.files.some(file => rowMap[file.path].isOpen);
-        if (!isAnyRowOpen) {
+        if (!openRows.current) {
             props.onFilePressed(file)
+        } else {
+            console.log(`STILL BUSY: ${openRows.current}`)
         }
     }
     return (
@@ -56,6 +58,8 @@ const FileList: React.FunctionComponent<FileListProps> = props => {
             closeOnRowBeginSwipe={true}
             closeOnRowPress={true}
             rightOpenValue={- Dimensions.get('window').width * 0.15}
+            onRowOpen={(rowKey: string) => openRows.current = rowKey}
+            onRowClose={(rowKey: string) => setTimeout(() => openRows.current === rowKey && (openRows.current = null), 100)}
         />
     );
 }
