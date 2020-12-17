@@ -34,10 +34,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
         ]);
     }, []);
     const removeFile = (file: File) => {
-        const newFiles = [...files];
-        const fileToRemoveIndex = newFiles.findIndex(searchedFile => searchedFile.path === file.path);
-        newFiles.splice(fileToRemoveIndex, 1);
-        setFiles(newFiles);
+        setFiles(files.filter(f => f.path !== file.path))
     };
     const addFile = async () => {
         try {
@@ -55,7 +52,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
                     text1: 'The file already exists!'
                 });
             } else {
-                setFiles([newFile, ...files ]);
+                setFiles([newFile, ...files]);
                 Toast.show({
                     type: 'success',
                     position: 'bottom',
