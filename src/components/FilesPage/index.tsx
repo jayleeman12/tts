@@ -1,45 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, NativeModules, Text, TouchableOpacity, View } from 'react-native';
 import { human } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import DocumentPicker from 'react-native-document-picker';
+import Toast from 'react-native-toast-message';
+import RNFetchBlob from 'rn-fetch-blob';
 import { COLORS } from '../../globals';
 import { File } from '../../types';
 import FileList from './FileList';
-import DocumentPicker from 'react-native-document-picker';
-import Toast from 'react-native-toast-message';
 
 const FilesPage: React.FunctionComponent<{}> = props => {
     const [files, setFiles] = useState<File[]>([]);
-    useEffect(() => {
-        setFiles([
-            { name: "Molecular Biology of the cell", path: 'le path' },
-            { name: "Robin hood goes rogue1", path: 'is never real' },
-            { name: "Robin hood goes rogue2", path: 'is never real2' },
-            { name: "Robin hood goes rogue3", path: 'is never real3' },
-            { name: "Robin hood goes rogue4", path: 'is never real4' },
-            { name: "Robin hood goes rogue5", path: 'is never real5' },
-            { name: "Robin hood goes rogue6", path: 'is never real6' },
-            { name: "Robin hood goes rogue7", path: 'is never real7' },
-            { name: "Robin hood goes rogue8", path: 'is never real8' },
-            { name: "Robin hood goes rogue9", path: 'is never real9' },
-            { name: "Robin hood goes rogue10", path: 'is never real10' },
-            { name: "Robin hood goes rogue11", path: 'is never real11' },
-            { name: "Robin hood goes rogue12", path: 'is never real12' },
-            { name: "Robin hood goes rogue13", path: 'is never real13' },
-            { name: "Robin hood goes rogue14", path: 'is never real14' },
-            { name: "Robin hood goes rogue15", path: 'is never real15' },
-            { name: "Robin hood goes rogue16", path: 'is never real16' },
-            { name: "Robin hood goes rogue17", path: 'is never real18' },
-            { name: "Banditza and the seven legs", path: 'maybe this?' }
-        ]);
-    }, []);
     const removeFile = (file: File) => {
         setFiles(files.filter(f => f.path !== file.path))
     };
     const addFile = async () => {
         try {
             const selectedFile = await DocumentPicker.pick({
-                type: [DocumentPicker.types.pdf, DocumentPicker.types.plainText]
+                type: [DocumentPicker.types.plainText]
             });
             const newFile: File = {
                 name: selectedFile.name,
@@ -66,6 +44,9 @@ const FilesPage: React.FunctionComponent<{}> = props => {
             }
         }
     }
+    const onFilePressed = async (file: File) => {
+        console.log(await RNFetchBlob.fs.readFile(file.path, 'utf8'));
+    }
     return (
         <View style={{ flex: 1 }}>
             <View style={{
@@ -75,7 +56,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
             }}>
                 <Text style={[human.title1, { color: 'white', marginLeft: '3%' }]}>Files</Text>
             </View>
-            <FileList files={files} onFileDeleted={removeFile} onFilePressed={(file: File) => Alert.alert('hmm')} />
+            <FileList files={files} onFileDeleted={removeFile} onFilePressed={onFilePressed} />
             <TouchableOpacity onPress={addFile} style={{ position: 'absolute', right: 30, bottom: 30 }}>
                 <Icon name='plus-circle' size={60} color={COLORS.primary.dark} />
             </TouchableOpacity>
