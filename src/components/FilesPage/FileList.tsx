@@ -14,28 +14,27 @@ export type FileListProps = {
 
 const FileList: React.FunctionComponent<FileListProps> = props => {
     const openRows = useRef<string | null>(null);
-    const handleRowPress = (file: File, rowMap: RowMap<File>) => {
-        if (!openRows.current) {
-            props.onFilePressed(file)
-        } else {
-            console.log(`STILL BUSY: ${openRows.current}`)
-        }
+    const handleRowPress = (file: File) => {
+        props.onFilePressed(file)
     }
     return (
         <SwipeListView
             contentContainerStyle={{ paddingLeft: '3%' }}
             data={props.files}
             keyExtractor={file => file.path}
-            renderItem={(data, rowMap) => (
-                <TouchableNativeFeedback onPress={() => handleRowPress(data.item, rowMap)}>
+            renderItem={data => (
+                <TouchableNativeFeedback onPress={() => handleRowPress(data.item)}>
                     <View style={{
                         height: 60,
                         flexDirection: 'row',
                         alignItems: 'center',
                         backgroundColor: 'white'
                     }}>
-                        <Icon name='file' size={25} color={COLORS.secondary.light} />
-                        <Text style={[human.body, { 'marginLeft': '3%' }]}>{data.item.name}</Text>
+                        <Icon name='file' size={35} color={COLORS.secondary.light} />
+                        <View style={{ marginLeft: '3%', width: '80%', flexShrink: 1 }}>
+                            <Text style={human.headline}>{data.item.name}</Text>
+                            <Text style={human.body} numberOfLines={1} ellipsizeMode='middle' >{data.item.path}</Text>
+                        </View>
                     </View>
                 </TouchableNativeFeedback>
             )}

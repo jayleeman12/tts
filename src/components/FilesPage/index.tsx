@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Dimensions, NativeModules, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { human } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DocumentPicker from 'react-native-document-picker';
@@ -19,9 +19,10 @@ const FilesPage: React.FunctionComponent<{}> = props => {
             const selectedFile = await DocumentPicker.pick({
                 type: [DocumentPicker.types.plainText]
             });
+            const path = (await RNFetchBlob.fs.stat(selectedFile.uri)).path;
             const newFile: File = {
                 name: selectedFile.name,
-                path: selectedFile.uri
+                path: path
             }
             if (files.some(file => file.path === newFile.path)) {
                 Toast.show({
