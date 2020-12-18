@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { human } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DocumentPicker from 'react-native-document-picker';
@@ -8,6 +8,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { COLORS } from '../../globals';
 import { File } from '../../types';
 import FileList from './FileList';
+import { requestFilesReadPermission } from '../../permissions';
 
 const FilesPage: React.FunctionComponent<{}> = props => {
     const [files, setFiles] = useState<File[]>([]);
@@ -46,7 +47,18 @@ const FilesPage: React.FunctionComponent<{}> = props => {
         }
     }
     const onFilePressed = async (file: File) => {
-        console.log(await RNFetchBlob.fs.readFile(file.path, 'utf8'));
+        const permissionsGranted = await requestFilesReadPermission();
+        if (permissionsGranted) {
+            console.log(await RNFetchBlob.fs.readFile(file.path, 'utf8'));
+        } else {
+            Toast.show({
+                type: 'error',
+                position: 'bottom',
+                text1: 'Permission Denied',
+                text2: 'To proceed, allow the "Storage" permission',
+                visibilityTime: 5000
+            });
+        }
     }
     return (
         <View style={{ flex: 1 }}>
