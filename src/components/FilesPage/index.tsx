@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
 import { human } from 'react-native-typography';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import DocumentPicker from 'react-native-document-picker';
 import Toast from 'react-native-toast-message';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -70,10 +70,27 @@ const FilesPage: React.FunctionComponent<{}> = props => {
                 <Text style={[human.title1, { color: 'white', marginLeft: '3%' }]}>Files</Text>
             </View>
             <FileList files={files} onFileDeleted={removeFile} onFilePressed={onFilePressed} />
-            <TouchableOpacity onPress={addFile} style={{ position: 'absolute', right: 30, bottom: 30 }}>
-                <Icon name='plus-circle' size={60} color={COLORS.primary.dark} />
-            </TouchableOpacity>
-        </View>
+            <View style={{
+                position: 'absolute',
+                right: 30,
+                bottom: 30,
+                elevation: 10,
+                shadowOpacity: 0.7,
+                shadowColor: 'black',
+                shadowRadius: 4,
+                shadowOffset: { width: 1, height: 1 },
+                backgroundColor: COLORS.secondary.light,
+                borderRadius: 400,
+                width: Dimensions.get('window').width * 0.18,
+                height: Dimensions.get('window').width * 0.18,
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                <TouchableNativeFeedback onPress={addFile}>
+                    <Icon name='plus' size={30} color='white' style={{ backgroundColor: 'transparent' }} light />
+                </TouchableNativeFeedback>
+            </View>
+        </View >
     )
 };
 
