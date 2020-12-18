@@ -15,11 +15,14 @@ export type FileListProps = {
 const FileList: React.FunctionComponent<FileListProps> = props => {
     const openRows = useRef<string | null>(null);
     const handleRowPress = (file: File) => {
-        props.onFilePressed(file)
+        if (!openRows.current) {
+            props.onFilePressed(file)
+        }
     }
     return (
         <SwipeListView
             contentContainerStyle={{ paddingLeft: '3%' }}
+            ListEmptyComponent={() => <View><Text>Behold! An empty list placeholder!</Text></View>}
             data={props.files}
             keyExtractor={file => file.path}
             renderItem={data => (
