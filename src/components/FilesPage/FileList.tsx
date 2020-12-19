@@ -35,7 +35,7 @@ const FileList: React.FunctionComponent<FileListProps> = props => {
                     }}>
                         <Icon name='file' size={35} color={COLORS.secondary.light} />
                         <View style={{ marginLeft: '3%', width: '80%', flexShrink: 1 }}>
-                            <Text style={human.headline}>{data.item.name}</Text>
+                            <Text style={[human.headline, { textAlign: 'left' }]}>{data.item.name}</Text>
                             <Text style={human.body} numberOfLines={1} ellipsizeMode='middle' >{data.item.path}</Text>
                         </View>
                     </View>

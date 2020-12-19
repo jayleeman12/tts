@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Dimensions, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Text, TouchableNativeFeedback, View } from 'react-native';
 import { human } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DocumentPicker from 'react-native-document-picker';
@@ -49,7 +49,8 @@ const FilesPage: React.FunctionComponent<{}> = props => {
     const onFilePressed = async (file: File) => {
         const permissionsGranted = await requestFilesReadPermission();
         if (permissionsGranted) {
-            console.log(await RNFetchBlob.fs.readFile(file.path, 'utf8'));
+            const fileContent = await RNFetchBlob.fs.readFile(file.path, 'utf8');
+            console.log(fileContent);
         } else {
             Toast.show({
                 type: 'error',
@@ -79,7 +80,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
                 shadowColor: 'black',
                 shadowRadius: 4,
                 shadowOffset: { width: 1, height: 1 },
-                backgroundColor: COLORS.secondary.light,
+                backgroundColor: COLORS.primary.light,
                 borderRadius: 400,
                 width: Dimensions.get('window').width * 0.18,
                 height: Dimensions.get('window').width * 0.18,
