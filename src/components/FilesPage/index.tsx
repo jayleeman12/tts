@@ -9,6 +9,8 @@ import { COLORS } from '../../globals';
 import { File } from '../../types';
 import FileList from './FileList';
 import { requestFilesReadPermission } from '../../permissions';
+import { Actions } from 'react-native-router-flux';
+import { FILE_VIEW } from '../../routets';
 
 const FilesPage: React.FunctionComponent<{}> = props => {
     const [files, setFiles] = useState<File[]>([]);
@@ -50,7 +52,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
         const permissionsGranted = await requestFilesReadPermission();
         if (permissionsGranted) {
             const fileContent = await RNFetchBlob.fs.readFile(file.path, 'utf8');
-            console.log(fileContent);
+            Actions.push(FILE_VIEW, {fileContent})
         } else {
             Toast.show({
                 type: 'error',

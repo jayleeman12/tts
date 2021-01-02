@@ -1,12 +1,16 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const FileView = () => (
-    <View>
-        <Text>
-            file view
-        </Text>
-    </View>
-);
+export type FileViewProps = {
+    fileContent: string
+}
+
+const FileView: React.FunctionComponent<FileViewProps> = props => {
+    return (
+        <View>
+            <Text>{props.fileContent}</Text>
+        </View>
+    )
+};
 
 export default FileView;
