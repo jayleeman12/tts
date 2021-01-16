@@ -1,15 +1,30 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import RNFetchBlob, { RNFetchBlobReadStream } from 'rn-fetch-blob';
 
 export type FileViewProps = {
-    fileContent: string
+    filePath: string
 }
 
 const FileView: React.FunctionComponent<FileViewProps> = props => {
+    const [fileContent, setFileContent] = useState<string>('');
+    useEffect(() => {
+        RNFetchBlob.fs.readStream(props.filePath, 'utf8').then(fileStream => {
+            fileStream.open()
+            fileStream.onData((chunk) => {
+                setFileContent(content => content + chunk)
+            });
+            fileStream.onError(err => {
+                throw new Error(err);
+            });
+        })
+    }, []);
     return (
-        <View>
-            <Text>{props.fileContent}</Text>
-        </View>
+        <SafeAreaView>
+            <ScrollView>
+                <Text>{fileContent}</Text>
+            </ScrollView>
+        </SafeAreaView>
     )
 };
 
