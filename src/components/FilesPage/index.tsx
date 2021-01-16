@@ -82,7 +82,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
                 shadowColor: 'black',
                 shadowRadius: 4,
                 shadowOffset: { width: 1, height: 1 },
-                backgroundColor: COLORS.primary.light,
+                backgroundColor: COLORS.primary.dark,
                 borderRadius: 400,
                 width: Dimensions.get('window').width * 0.18,
                 height: Dimensions.get('window').width * 0.18,
