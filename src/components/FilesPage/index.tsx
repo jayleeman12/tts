@@ -51,8 +51,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
     const onFilePressed = async (file: File) => {
         const permissionsGranted = await requestFilesReadPermission();
         if (permissionsGranted) {
-            const fileContent = await RNFetchBlob.fs.readFile(file.path, 'utf8');
-            Actions.push(FILE_VIEW, {fileContent})
+            Actions.push(FILE_VIEW, {filePath: file.path})
         } else {
             Toast.show({
                 type: 'error',
