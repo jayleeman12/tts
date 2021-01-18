@@ -1,16 +1,16 @@
 import { PermissionsAndroid } from "react-native"
 
-export const requestFilesReadPermission = async (): Promise<boolean> => {
+export const requestFilesReadWritePermissions = async (): Promise<boolean> => {
     try {
-        const granted = await PermissionsAndroid.request(
-            'android.permission.READ_EXTERNAL_STORAGE',
-            {
-                title: 'Dis be a title',
-                message: 'TTS needs to access your files so it can read them',
-                buttonPositive: 'OK'
-            }
+        const permissionResponse = await PermissionsAndroid.requestMultiple(
+            [
+                'android.permission.READ_EXTERNAL_STORAGE',
+                'android.permission.WRITE_EXTERNAL_STORAGE'
+            ],
         );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        const read_granted = permissionResponse['android.permission.READ_EXTERNAL_STORAGE'] == PermissionsAndroid.RESULTS.GRANTED;
+        const write_granted = permissionResponse['android.permission.WRITE_EXTERNAL_STORAGE'] == PermissionsAndroid.RESULTS.GRANTED;
+        if (read_granted && write_granted) {
             return true;
         } else {
             return false;

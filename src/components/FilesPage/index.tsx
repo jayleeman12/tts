@@ -8,7 +8,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { COLORS } from '../../globals';
 import { File } from '../../types';
 import FileList from './FileList';
-import { requestFilesReadPermission } from '../../permissions';
+import { requestFilesReadWritePermissions } from '../../permissions';
 import { Actions } from 'react-native-router-flux';
 import { FILE_VIEW } from '../../routets';
 
@@ -49,7 +49,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
         }
     }
     const onFilePressed = async (file: File) => {
-        const permissionsGranted = await requestFilesReadPermission();
+        const permissionsGranted = await requestFilesReadWritePermissions();
         if (permissionsGranted) {
             Actions.push(FILE_VIEW, {filePath: file.path})
         } else {
