@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
-import RNFetchBlob, { RNFetchBlobReadStream } from 'rn-fetch-blob';
+import { parseEpub } from '../epub';
 
 export type FileViewProps = {
-    filePath: string
+    fileName: string;
+    filePath: string;
 }
 
 const FileView: React.FunctionComponent<FileViewProps> = props => {
+    const [isEpubParsed, setEpubParsed] = useState<boolean>(false);
     const [fileContent, setFileContent] = useState<string>('');
     useEffect(() => {
-        RNFetchBlob.fs.readStream(props.filePath, 'utf8').then(fileStream => {
-            fileStream.open()
-            fileStream.onData((chunk) => {
-                setFileContent(content => content + chunk)
-            });
-            fileStream.onError(err => {
-                throw new Error(err);
-            });
-        })
+        parseEpub(props.filePath, props.fileName).then(() => {
+            setEpubParsed(true)
+        }).catch(err => console.log(err));
     }, []);
     return (
         <SafeAreaView>
