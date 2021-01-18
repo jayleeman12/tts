@@ -19,6 +19,7 @@ const FileList: React.FunctionComponent<FileListProps> = props => {
             props.onFilePressed(file)
         }
     }
+    const getFolderPath = (filePath: string) => filePath.substring(0, filePath.lastIndexOf('/'))
     return (
         <SwipeListView
             contentContainerStyle={{ paddingLeft: '3%' }}
@@ -35,8 +36,8 @@ const FileList: React.FunctionComponent<FileListProps> = props => {
                     }}>
                         <Icon name='file' size={35} color={COLORS.secondary.light} />
                         <View style={{ marginLeft: '3%', width: '80%', flexShrink: 1 }}>
-                            <Text style={[human.headline, { textAlign: 'left' }]}>{data.item.name}</Text>
-                            <Text style={human.body} numberOfLines={1} ellipsizeMode='middle' >{data.item.path}</Text>
+                            <Text style={[human.headline, { textAlign: 'left' }]} numberOfLines={1} ellipsizeMode='middle'>{data.item.name}</Text>
+                            <Text style={human.body} numberOfLines={1} ellipsizeMode='middle' >{getFolderPath(data.item.path)}</Text>
                         </View>
                     </View>
                 </TouchableNativeFeedback>
