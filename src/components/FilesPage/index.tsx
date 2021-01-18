@@ -51,7 +51,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
     const onFilePressed = async (file: File) => {
         const permissionsGranted = await requestFilesReadWritePermissions();
         if (permissionsGranted) {
-            Actions.push(FILE_VIEW, {filePath: file.path})
+            Actions.push(FILE_VIEW, {filePath: file.path, fileName: file.name });
         } else {
             Toast.show({
                 type: 'error',
