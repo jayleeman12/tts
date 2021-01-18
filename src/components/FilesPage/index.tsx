@@ -20,7 +20,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
     const addFile = async () => {
         try {
             const selectedFile = await DocumentPicker.pick({
-                type: [DocumentPicker.types.plainText]
+                type: [DocumentPicker.types.allFiles]
             });
             const path = (await RNFetchBlob.fs.stat(selectedFile.uri)).path;
             const newFile: File = {
