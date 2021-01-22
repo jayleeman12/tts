@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { parseEpub } from '../epub';
 
 export type FileViewProps = {
@@ -8,13 +8,16 @@ export type FileViewProps = {
 }
 
 const FileView: React.FunctionComponent<FileViewProps> = props => {
-    const [isEpubParsed, setEpubParsed] = useState<boolean>(false);
     const [fileContent, setFileContent] = useState<string>('');
     useEffect(() => {
-        parseEpub(props.filePath, props.fileName).then(() => {
-            setEpubParsed(true)
+        parseEpub(props.filePath, props.fileName).then((partsDirectoryPath) => {
+
         }).catch(err => console.log(err));
     }, []);
+
+    if (!fileContent) {
+        return <ActivityIndicator size='large' />
+    }
     return (
         <SafeAreaView>
             <ScrollView>
