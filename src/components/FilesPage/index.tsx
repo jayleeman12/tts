@@ -5,7 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import DocumentPicker from 'react-native-document-picker';
 import Toast from 'react-native-toast-message';
 import RNFetchBlob from 'rn-fetch-blob';
-import { COLORS, STORAGE_FILES_KEY } from '../../globals';
+import { COLORS } from '../../globals';
+import { FILES as AsyncStorageFilesKey } from '../../storageKeys';
 import { File } from '../../types';
 import FileList from './FileList';
 import { requestFilesReadWritePermissions } from '../../permissions';
@@ -16,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const FilesPage: React.FunctionComponent<{}> = props => {
     const [files, setFiles] = useState<File[]>([]);
     useEffect(() => {
-        AsyncStorage.getItem(STORAGE_FILES_KEY).then(value => {
+        AsyncStorage.getItem(AsyncStorageFilesKey).then(value => {
             if (value) {
                 const files = JSON.parse(value);
                 setFiles(files);
@@ -45,7 +46,7 @@ const FilesPage: React.FunctionComponent<{}> = props => {
             } else {
                 const newFiles = [newFile, ...files];
                 try {
-                    await AsyncStorage.setItem(STORAGE_FILES_KEY, JSON.stringify(newFiles));
+                    await AsyncStorage.setItem(AsyncStorageFilesKey, JSON.stringify(newFiles));
                     setFiles([newFile, ...files]);
                     Toast.show({
                         type: 'success',

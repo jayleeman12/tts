@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, SafeAreaView, ScrollView, Text, View } from 'react-native';
-import { parseEpub } from '../epub';
+import RNFetchBlob from 'rn-fetch-blob';
+import { Epub } from '../epub';
 
 export type FileViewProps = {
-    fileName: string;
     filePath: string;
 }
 
 const FileView: React.FunctionComponent<FileViewProps> = props => {
     const [fileContent, setFileContent] = useState<string>('');
+    const epub = useRef(new Epub(props.filePath))
     useEffect(() => {
-        parseEpub(props.filePath, props.fileName).then((partsDirectoryPath) => {
-
-        }).catch(err => console.log(err));
+        epub.current.load().then(() => {
+            console.log('Loaded epub :)');
+        })
     }, []);
 
     if (!fileContent) {
