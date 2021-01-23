@@ -8,3 +8,5 @@ export const COLORS = {
         dark: '#0077c2'
     }
 }
+
+export const STORAGE_FILES_KEY = 'FILES';

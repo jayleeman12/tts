@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, Text, TouchableNativeFeedback, View } from 'react-native';
 import { human } from 'react-native-typography';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DocumentPicker from 'react-native-document-picker';
 import Toast from 'react-native-toast-message';
 import RNFetchBlob from 'rn-fetch-blob';
-import { COLORS } from '../../globals';
+import { COLORS, STORAGE_FILES_KEY } from '../../globals';
 import { File } from '../../types';
 import FileList from './FileList';
 import { requestFilesReadWritePermissions } from '../../permissions';
 import { Actions } from 'react-native-router-flux';
 import { FILE_VIEW } from '../../routets';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FilesPage: React.FunctionComponent<{}> = props => {
     const [files, setFiles] = useState<File[]>([]);
+    useEffect(() => {
+        AsyncStorage.getItem(STORAGE_FILES_KEY).then(value => {
+            if (value) {
+                const files = JSON.parse(value);
+                setFiles(files);
+            }
+        }).catch(e => console.log(e));
+    }, [])
     const removeFile = (file: File) => {
         setFiles(files.filter(f => f.path !== file.path))
     };
@@ -34,13 +43,17 @@ const FilesPage: React.FunctionComponent<{}> = props => {
                     text1: 'The file already exists!'
                 });
             } else {
-                setFiles([newFile, ...files]);
-                Toast.show({
-                    type: 'success',
-                    position: 'bottom',
-                    text1: 'File added successfully!',
-                    visibilityTime: 2000
-                })
+                const newFiles = [newFile, ...files];
+                try {
+                    await AsyncStorage.setItem(STORAGE_FILES_KEY, JSON.stringify(newFiles));
+                    setFiles([newFile, ...files]);
+                    Toast.show({
+                        type: 'success',
+                        position: 'bottom',
+                        text1: 'File added successfully!',
+                        visibilityTime: 2000
+                    });
+                } catch (e) { console.log(e) }
             }
         } catch (err) {
             if (!DocumentPicker.isCancel(err)) {
